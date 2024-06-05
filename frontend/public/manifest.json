@@ -1,0 +1,15 @@
+{
+  "short_name": "To-Do List",
+  "name": "A Sample FARM Stack application, by MongoDB",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "lightgray",
+  "background_color": "#ffffff"
+}
