@@ -1,6 +1,6 @@
 import pytest
 
-from dal import ToDoDAL
+from celebmatcher.dal import ToDoDAL
 
 
 async def get_friday_cocktails(todos_dal: ToDoDAL):
