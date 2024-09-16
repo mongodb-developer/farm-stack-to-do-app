@@ -1,2 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "todo-farm-backend"
+version = "0.0.1"
+description = "A small to-do app, demonstrating how the FARM stack works."
+readme = "README.md"
+authors = [
+    { name = "Mark Smith", email = "mark.smith@mongodb.com" }
+]
+# The following classifier will allow this code to be packaged,
+# but will prevent it from being uploaded to PyPI.
+classifiers = ["Private :: Do Not Upload"]
+dependencies = [
+    "fastapi[all] ~= 0.112.2",
+    "motor[srv] ~= 3.5.1",
+]
+
+[project.scripts]
+server = "todo.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/todo"]
+
 [tool.pytest.ini_options]
 pythonpath = "src"
