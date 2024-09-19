@@ -1,10 +1,15 @@
 FROM python:3
 
-WORKDIR /usr/src/app
-COPY dev-requirements.txt ./
+WORKDIR /app
+COPY requirements-dev.txt ./
 
-RUN pip install --no-cache-dir --upgrade -r ./dev-requirements.txt
+RUN --mount=type=cache,target=/root/.cache \
+    python -m pip install --upgrade -r ./requirements-dev.txt
+
+COPY . .
+RUN --mount=type=cache,target=/root/.cache \
+    python -m pip install -e .
 
 EXPOSE 3001
 
-CMD [ "python", "./src/server.py" ]
+CMD [ "python", "-m", "todo" ]

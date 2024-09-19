@@ -25,14 +25,14 @@ services:
     image: todo-app/backend
     build: ./backend
     volumes:
-      - ./backend/:/usr/src/app
+      - ./backend/:/app
     expose:
       - "3001"
     ports:
       - "8001:3001"
-    command: "python src/server.py"
     environment:
       - DEBUG=true
+      - WATCHFILES_FORCE_POLLING=true # Force FastAPI to poll filesystem.
     env_file:
       - path: ./.env
         required: true

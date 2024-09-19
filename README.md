@@ -52,6 +52,8 @@ Once you've followed these steps, you can spin up the entire development environ
 docker compose up
 ```
 
+Now you can visit your site at: http://localhost:8000/
+
 
 [FastAPI]: https://fastapi.tiangolo.com/
 [React]: https://react.dev/

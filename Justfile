@@ -7,8 +7,7 @@ load-fixtures:
 update-dependencies:
     docker compose run frontend npm install
     docker compose build    # Needed to ensure pip-compile for next step
-    docker compose run backend pip-compile requirements.ini
-    docker compose run backend pip-compile dev-requirements.ini
+    docker compose run backend pip-compile requirements-dev.ini
     docker compose build
 
 run:

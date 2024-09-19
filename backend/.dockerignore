@@ -1,0 +1,20 @@
+# Common
+.dockerignore
+CHANGELOG.md
+docker-compose.yml
+Dockerfile
+
+# git
+.git
+.gitattributes
+.gitignore
+
+# Secrets
+.env
+.envrc
+
+# Project files
+.pytest_cache
+Dockerfile.production
+dist
+venv
