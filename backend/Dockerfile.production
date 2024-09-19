@@ -1,0 +1,30 @@
+FROM 722245653955.dkr.ecr.us-east-1.amazonaws.com/python/uv-build:latest as build
+
+# Prepare a virtual environment.
+# This is cached until the Python version changes above.
+RUN --mount=type=cache,target=/root/.cache \
+    uv venv $UV_PROJECT_ENVIRONMENT
+
+# Synchronize DEPENDENCIES without the application itself.
+# This layer is cached until uv.lock or pyproject.toml change.
+# Since there's no point in shipping lock files, we move them
+# into a directory that is NOT copied into the runtime image.
+COPY pyproject.toml /_lock/
+COPY uv.lock /_lock/
+RUN --mount=type=cache,target=/root/.cache <<EOT
+cd /_lock
+uv sync \
+    --frozen \
+    --no-dev \
+    --no-install-project
+EOT
+
+# Now install the APPLICATION without any dependencies.
+# /src will NOT be copied into the runtime container.
+# LEAVE THIS OUT if your application is NOT a proper Python package.
+COPY . /src
+RUN --mount=type=cache,target=/root/.cache \
+    uv pip install \
+        --python=$UV_PROJECT_ENVIRONMENT \
+        --no-deps \
+        /src

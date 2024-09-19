@@ -5,9 +5,6 @@ import pytest_asyncio
 from motor.motor_asyncio import AsyncIOMotorClient
 
 
-COLLECTION_NAME = "todo_lists"
-
-
 @pytest_asyncio.fixture(scope="session")
 async def motor_client():
     client = AsyncIOMotorClient(os.environ["MONGODB_URI"])
@@ -22,9 +19,9 @@ def app_db(motor_client):
     return motor_client.get_default_database()
 
 
-@pytest_asyncio.fixture(scope="session")
-def todo_collection(app_db):
-    return app_db.get_collection(COLLECTION_NAME)
+# @pytest_asyncio.fixture(scope="session")
+# def todo_collection(app_db):
+#     return app_db.get_collection(COLLECTION_NAME)
 
 
 @pytest_asyncio.fixture(scope="session")

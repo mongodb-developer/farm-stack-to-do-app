@@ -16,6 +16,7 @@ classifiers = ["Private :: Do Not Upload"]
 dependencies = [
     "fastapi[all] ~= 0.112.2",
     "motor[srv] ~= 3.5.1",
+    "beanie == 1.26.0",
 ]
 
 [project.scripts]

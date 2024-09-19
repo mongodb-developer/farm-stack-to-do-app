@@ -1,16 +1,17 @@
 import pytest
 
-from todo.dal import ToDoDAL
+import todo.dal_beanie as dal
+from todo.dal_beanie import ToDoDALBeanie
 
 
-async def get_friday_cocktails(todos_dal: ToDoDAL):
+async def get_friday_cocktails(todos_dal: ToDoDALBeanie):
     # Use list_todo_lists to obtain a valid list summary:
     return await anext(aiter(todos_dal.list_todo_lists()))
 
 
 @pytest.mark.asyncio(scope="session")
-async def test_list_todos(todo_collection):
-    todos_dal = ToDoDAL(todo_collection)
+async def test_list_todos(app_db):
+    todos_dal = await dal.get_instance(app_db)
     cursor = todos_dal.list_todo_lists()
     summaries = [summary async for summary in cursor]
 
@@ -20,8 +21,8 @@ async def test_list_todos(todo_collection):
 
 
 @pytest.mark.asyncio(scope="session")
-async def test_get_todo_list(todo_collection):
-    todos_dal = ToDoDAL(todo_collection)
+async def test_get_todo_list(app_db):
+    todos_dal = await dal.get_instance(app_db)
     an_id = (await get_friday_cocktails(todos_dal)).id
 
     friday_cocktails = await todos_dal.get_todo_list(an_id)
@@ -30,8 +31,8 @@ async def test_get_todo_list(todo_collection):
 
 
 @pytest.mark.asyncio(scope="session")
-async def test_create_item(todo_collection, rollback_session):
-    todos_dal = ToDoDAL(todo_collection)
+async def test_create_item(app_db, rollback_session):
+    todos_dal = await dal.get_instance(app_db)
     an_id = (await get_friday_cocktails(todos_dal)).id
 
     await todos_dal.create_item(an_id, "pytest dummy item", session=rollback_session)
@@ -41,8 +42,8 @@ async def test_create_item(todo_collection, rollback_session):
 
 
 @pytest.mark.asyncio(scope="session")
-async def test_delete_item(todo_collection, rollback_session):
-    todos_dal = ToDoDAL(todo_collection)
+async def test_delete_item(app_db, rollback_session):
+    todos_dal = await dal.get_instance(app_db)
     an_id = (await get_friday_cocktails(todos_dal)).id
 
     todo = await todos_dal.get_todo_list(an_id, session=rollback_session)
@@ -63,8 +64,8 @@ async def test_delete_item(todo_collection, rollback_session):
 
 
 @pytest.mark.asyncio(scope="session")
-async def test_set_checked_state(todo_collection, rollback_session):
-    todos_dal = ToDoDAL(todo_collection)
+async def test_set_checked_state(app_db, rollback_session):
+    todos_dal = await dal.get_instance(app_db)
     doc_id = (await get_friday_cocktails(todos_dal)).id
 
     # First get the existing doc, so we can get an existing item state:
@@ -98,8 +99,8 @@ async def test_set_checked_state(todo_collection, rollback_session):
 
 
 @pytest.mark.asyncio(scope="session")
-async def test_create_todo_list(todo_collection, rollback_session):
-    todos_dal = ToDoDAL(todo_collection)
+async def test_create_todo_list(app_db, rollback_session):
+    todos_dal = await dal.get_instance(app_db)
 
     new_list_id = await todos_dal.create_todo_list(
         "pytest test list should be removed",

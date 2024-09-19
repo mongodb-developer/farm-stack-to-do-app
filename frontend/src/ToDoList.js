@@ -20,7 +20,7 @@ function ToDoList({ listId, handleBackButton }) {
 
   function handleCreateItem(label) {
     const updateData = async () => {
-      const response = await axios.post(`/api/lists/${listData.id}/items/`, {
+      const response = await axios.post(`/api/lists/${listData._id}/items/`, {
         label: label,
       });
       setListData(await response.data);
@@ -31,7 +31,7 @@ function ToDoList({ listId, handleBackButton }) {
   function handleDeleteItem(id) {
     const updateData = async () => {
       const response = await axios.delete(
-        `/api/lists/${listData.id}/items/${id}`
+        `/api/lists/${listData._id}/items/${id}`
       );
       setListData(await response.data);
     };
@@ -41,7 +41,7 @@ function ToDoList({ listId, handleBackButton }) {
   function handleCheckToggle(itemId, newState) {
     const updateData = async () => {
       const response = await axios.patch(
-        `/api/lists/${listData.id}/checked_state`,
+        `/api/lists/${listData._id}/checked_state`,
         {
           item_id: itemId,
           checked_state: newState,

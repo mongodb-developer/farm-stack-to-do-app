@@ -1,16 +1,16 @@
 from contextlib import asynccontextmanager
-from datetime import datetime
 import os
 
-from bson import ObjectId
 from fastapi import FastAPI, status
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel
 
-from .dal import ToDoDAL, ListSummary, ToDoList
+from .dal_beanie import get_instance, ListSummary, ToDoList
+
+## Uncomment this line to use motor directly, instead of via Beanie ODM:
+# from .dal_motor import get_instance, ListSummary, ToDoList
 
 DEBUG = os.environ.get("DEBUG", "").strip().lower() in {"1", "true", "on", "yes"}
-COLLECTION_NAME = "todo_lists"
 MONGODB_URI = os.environ["MONGODB_URI"]
 
 
@@ -25,8 +25,7 @@ async def lifespan(app: FastAPI):
     if int(pong["ok"]) != 1:
         raise Exception("Cluster connection is not okay!")
 
-    todo_lists = database.get_collection(COLLECTION_NAME)
-    app.todo_dal = ToDoDAL(todo_lists)
+    app.todo_dal = await get_instance(database)
 
     # Yield back to FastAPI Application:
     yield
@@ -55,7 +54,7 @@ class NewListResponse(BaseModel):
 @app.post("/api/lists", status_code=status.HTTP_201_CREATED)
 async def create_todo_list(new_list: NewList) -> NewListResponse:
     return NewListResponse(
-        id=await app.todo_dal.create_todo_list(new_list.name),
+        id=str(await app.todo_dal.create_todo_list(new_list.name)),
         name=new_list.name,
     )
 

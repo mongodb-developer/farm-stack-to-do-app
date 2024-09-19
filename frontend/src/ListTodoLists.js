@@ -39,9 +39,9 @@ function ListToDoLists({
       {listSummaries.map((summary) => {
         return (
           <div
-            key={summary.id}
+            key={summary._id}
             className="summary"
-            onClick={() => handleSelectList(summary.id)}
+            onClick={() => handleSelectList(summary._id)}
           >
             <span className="name">{summary.name} </span>
             <span className="count">({summary.item_count} items)</span>
@@ -50,7 +50,7 @@ function ListToDoLists({
               className="trash"
               onClick={(evt) => {
                 evt.stopPropagation();
-                handleDeleteToDoList(summary.id);
+                handleDeleteToDoList(summary._id);
               }}
             >
               <BiSolidTrash />
