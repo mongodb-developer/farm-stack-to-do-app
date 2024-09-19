@@ -103,16 +103,3 @@ async def set_checked_state(list_id: str, update: ToDoItemUpdate) -> ToDoList:
     return await app.todo_dal.set_checked_state(
         list_id, update.item_id, update.checked_state
     )
-
-
-class DummyResponse(BaseModel):
-    id: str
-    when: datetime
-
-
-@app.get("/api/dummy")
-async def get_dummy() -> DummyResponse:
-    return DummyResponse(
-        id=str(ObjectId()),
-        when=datetime.now(),
-    )
