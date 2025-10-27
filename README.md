@@ -17,7 +17,7 @@ Its purpose is to demonstrate the following:
 You first need to configure the environment, by creating a text file called `.env` in the project directory (that's the directory that contains `compose.yml`). It should contain a MongoDB connection string as the variable `MDB_URI`:
 
 ```text
-export MONGODB_URI='mongodb+srv://YOURUSERNAME:YOURPASSWORDHERE@sandbox.ABCDEF.mongodb.net/todo_list_app?retryWrites=true&w=majority&appName=farm_stack_webinar'
+export MONGODB_URI='mongodb+srv://YOURUSERNAME:YOURPASSWORDHERE@sandbox.ABCDEF.mongodb.net/todo_list_app?retryWrites=true&w=majority&appName=sample-app-python-farm-tutorial'
 ```
 
 You'll need to set it to _your_ MongoDB connection string, though, not mine.
