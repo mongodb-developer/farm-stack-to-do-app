@@ -17,7 +17,7 @@ MONGODB_URI = os.environ["MONGODB_URI"]
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup:
-    client = AsyncIOMotorClient(MONGODB_URI)
+    client = AsyncIOMotorClient(MONGODB_URI, appName="sample-app-python-farm-tutorial")
     database = client.get_default_database()
 
     # Ensure the database is available:
