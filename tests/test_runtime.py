@@ -68,6 +68,14 @@ class RuntimeTest(unittest.TestCase):
         fake_dal.get_instance = get_instance
         sys.modules["todo.dal_beanie"] = fake_dal
 
+        pymongo = types.ModuleType("pymongo")
+        class AsyncMongoClient:
+            def __init__(self, *a, **kw): pass
+            def __getitem__(self, name): return {}
+            def get_default_database(self): return {}
+        pymongo.AsyncMongoClient = AsyncMongoClient
+        sys.modules["pymongo"] = pymongo
+
         src = Path(__file__).resolve().parents[1] / "backend" / "src"
         sys.path.insert(0, str(src))
         cls.mod = importlib.import_module("todo.server")
