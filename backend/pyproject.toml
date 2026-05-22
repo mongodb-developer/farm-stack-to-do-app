@@ -15,7 +15,7 @@ authors = [
 classifiers = ["Private :: Do Not Upload"]
 dependencies = [
     "fastapi[all] ~= 0.112.2",
-    "motor[srv] ~= 3.5.1",
+    "pymongo[srv] ~= 4.13.1",
     "beanie == 1.26.0",
 ]
 
