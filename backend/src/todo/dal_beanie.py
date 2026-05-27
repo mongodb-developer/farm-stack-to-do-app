@@ -1,5 +1,5 @@
 from bson import ObjectId
-from motor.motor_asyncio import AsyncIOMotorDatabase
+from pymongo.asynchronous.database import AsyncDatabase
 from pymongo import ReturnDocument
 from beanie import Document, init_beanie
 
@@ -38,12 +38,12 @@ class ToDoList(Document):
     items: list[ToDoListItem]
 
 
-async def get_instance(database: AsyncIOMotorDatabase) -> "ToDoDALBeanie":
+async def get_instance(database: AsyncDatabase) -> "ToDoDALBeanie":
     return await ToDoDALBeanie(database)
 
 
 class ToDoDALBeanie:
-    def __init__(self, database: AsyncIOMotorDatabase):
+    def __init__(self, database: AsyncDatabase):
         self._database = database
 
     def __await__(self):

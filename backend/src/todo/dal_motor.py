@@ -1,5 +1,5 @@
 from bson import ObjectId
-from motor.motor_asyncio import AsyncIOMotorDatabase
+from pymongo.asynchronous.database import AsyncDatabase
 from pymongo import ReturnDocument
 
 from pydantic import BaseModel, Field
@@ -49,12 +49,12 @@ class ToDoList(BaseModel):
         )
 
 
-async def get_instance(database: AsyncIOMotorDatabase):
+async def get_instance(database: AsyncDatabase):
     return ToDoDALMotor(database)
 
 
 class ToDoDALMotor:
-    def __init__(self, database: AsyncIOMotorDatabase):
+    def __init__(self, database: AsyncDatabase):
         self._todo_collection = database.get_collection("todo_lists")
 
     async def list_todo_lists(self, session=None):

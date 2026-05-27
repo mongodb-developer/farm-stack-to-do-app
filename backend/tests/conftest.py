@@ -2,12 +2,12 @@ import os
 
 import pytest
 import pytest_asyncio
-from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo import AsyncMongoClient
 
 
 @pytest_asyncio.fixture(scope="session")
 async def motor_client():
-    client = AsyncIOMotorClient(os.environ["MONGODB_URI"])
+    client = AsyncMongoClient(os.environ["MONGODB_URI"])
     pong = await client.local.command("ping")
     assert int(pong["ok"]) == 1
     yield client
@@ -25,7 +25,7 @@ def app_db(motor_client):
 
 
 @pytest_asyncio.fixture(scope="session")
-async def rollback_session(motor_client: AsyncIOMotorClient):
+async def rollback_session(motor_client: AsyncMongoClient):
     """
     This fixture provides a session that will be aborted at the end of the test, to clean up any written data.
     """

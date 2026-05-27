@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 import os
 
 from fastapi import FastAPI, status
-from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo import AsyncMongoClient
 from pydantic import BaseModel
 
 from .dal_beanie import get_instance, ListSummary, ToDoList
@@ -17,7 +17,7 @@ MONGODB_URI = os.environ["MONGODB_URI"]
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup:
-    client = AsyncIOMotorClient(MONGODB_URI, appName="sample-app-python-farm-tutorial")
+    client = AsyncMongoClient(MONGODB_URI, appName="sample-app-python-farm-tutorial")
     database = client.get_default_database()
 
     # Ensure the database is available:

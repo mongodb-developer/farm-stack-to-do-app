@@ -1,6 +1,6 @@
 import asyncio
 import os
-from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo import AsyncMongoClient
 
 from pprint import pprint
 
@@ -24,7 +24,7 @@ async def test_beanie():
         class Settings:
             name = COLLECTION_NAME
 
-    client = AsyncIOMotorClient(MONGODB_URI)
+    client = AsyncMongoClient(MONGODB_URI)
     await init_beanie(
         database=client.get_default_database(), document_models=[ToDoList]
     )
@@ -60,7 +60,7 @@ async def test_motor():
                 items=[Item.from_doc(item) for item in doc["items"]],
             )
 
-    client = AsyncIOMotorClient(MONGODB_URI)
+    client = AsyncMongoClient(MONGODB_URI)
     collection = client.get_default_database().get_collection(COLLECTION_NAME)
     pprint(
         ToDoList.from_doc(doc)
